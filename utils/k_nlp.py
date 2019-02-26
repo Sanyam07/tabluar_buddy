@@ -14,8 +14,6 @@ def word_idx(sentences):
     num_unique_words = len(word_2_idx)
     return word_2_idx, idx_2_word, num_unique_words
 
-
-
 def unicode_to_ascii(s):
     '''
         Turn a Unicode string to plain ASCII, thanks to http://stackoverflow.com/a/518232/2809427
