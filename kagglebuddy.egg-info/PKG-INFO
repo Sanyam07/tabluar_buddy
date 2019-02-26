@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: kagglebuddy
+Version: 0.0.1
+Summary: machine learning toolkit
+Home-page: https://github.com/NickYi1990/Kaggle_Buddy
+Author: 鲲(China)
+Author-email: 972775099@qq.com
+License: UNKNOWN
+Description: # Kaggle_Buddy
+        
+        This is a machine learning libriary I ofen use in competition and work, I will add more functions and make it more standard in the future.
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
