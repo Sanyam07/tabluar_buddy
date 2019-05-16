@@ -142,33 +142,10 @@ def ka_get_NC_col_names(data):
     category_cols = data.select_dtypes(include=['O']).columns.tolist()
     return numerics_cols, category_cols
 
-def ka_verify_primary_key(data, column_list):
-    '''Verify if columns in column list can be treat as primary key
-
-        Parameter
-        ---------
-        data: pandas dataframe
-
-        column_list: list_like
-                     column names in a list
-
-        Return
-        ------
-        boolean: if true, these columns are unique in combination and can be used as a key
-                 if false, these columns are not unique in combination and can not be used as a key
-    '''
-
-    return data.shape[0] == data.groupby(column_list).size().reset_index().shape[0]
 
 ####################################################################################
 ##                              CATEGORICAL BLOCK
 ####################################################################################
-
-def k_cat_explore(x: pd.Series):
-    unique_cnt = x.nunique()
-
-    print()
-
 
 def k_cat_explore(x: pd.Series):
     unique_cnt = x.nunique()

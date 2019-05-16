@@ -9,10 +9,12 @@ import argparse
 import matplotlib.pyplot as plt
 
 from tqdm                    import tqdm
+from time                    import gmtime, strftime
 from itertools               import islice
 from sklearn.metrics         import *
 from sklearn.model_selection import *
 from sklearn.preprocessing   import *
+from sklearn.externals       import joblib
 
 from scipy.stats          import rankdata
 from scipy.special        import erfinv
@@ -39,6 +41,9 @@ def loadConfig(path):
     options = parser.parse_args()
     config  = json.load(open(options.config))
     return config
+
+def now():
+    return strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 class tick_tock:
     def __init__(self, process_name, verbose=1):

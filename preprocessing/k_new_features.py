@@ -1,7 +1,7 @@
 import warnings
 import numpy as np
 import pandas as pd
-from ..utils.k_others import tick_tock
+from ..utils.utils import tick_tock
 
 def _deprecated(func):
     '''This is a decorator which can be used to mark functions

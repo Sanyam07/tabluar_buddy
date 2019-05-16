@@ -12,16 +12,16 @@ if __name__ == "__main__":
 
     with open("README.md", "r") as fh:
         long_description = fh.read()
-    
+
     setuptools.setup(
                      name                          = "kagglebuddy",
-                     version                       = "0.0.1",
+                     version                       = "0.0.3",
                      author                        = "鲲(China)",
                      author_email                  = "972775099@qq.com",
                      description                   = "machine learning toolkit",
                      long_description              = long_description,
                      long_description_content_type = "text/markdown",
-                     url                           = "https://github.com/NickYi1990/Kaggle_Buddy",
+                     url                           = "https://github.com/NickYi1990/kaggleBuddy",
                      classifiers=[
                                   "Programming Language :: Python :: 3",
                                   "License :: OSI Approved :: MIT License",
