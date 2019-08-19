@@ -1,6 +1,0 @@
-README.md
-setup.py
-kagglebuddy.egg-info/PKG-INFO
-kagglebuddy.egg-info/SOURCES.txt
-kagglebuddy.egg-info/dependency_links.txt
-kagglebuddy.egg-info/top_level.txt

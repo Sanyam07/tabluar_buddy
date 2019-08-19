@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/Users/kun/anaconda3/bin/python",
+    "fileheader.tpl": "# @Author: {author}\\n# @Date: {createTime}\\n# @Last Modified by:   {lastModifiedBy}\\n# @Last Modified time: {updateTime} \\n# Standard libraries\\n# Third party libraries\\n# User defined libraries\\n"
+}

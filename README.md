@@ -10,6 +10,8 @@ How to install: pip install kaggleBuddy
 1. cd folder  
 2. python3 setup.py sdist bdist_wheel  
 3. python3 -m twine upload dist/*  
+4. pip install kaggleBuddy --upgrade
+
 
 ```
 """Brief description.
@@ -18,17 +20,17 @@ Detailed description.
 
 Parameters
 ----------
-default_parameter : type, optional (default = 5)
-    Detailed description.
-required_parameter : type_1 or type_2
-    Detailed description.
-    - 'value_1' : Detailed description.
-    - 'value_2' : Detailed description.
+default_parameter: type, optional (default = 5)
+	Detailed description.
+required_parameter: type_1 or type_2
+	Detailed description.
+	- value_1: Detailed description.
+	- value_2: Detailed description.
 
 Returns
 -------
-parameter : type
-    Detailed description.
+parameter: type
+	Detailed description.
 
 Examples
 --------
