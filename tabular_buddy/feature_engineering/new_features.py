@@ -193,7 +193,7 @@ def create_w2v_interaction_features(data, col1, col2, n_components, window_size,
 class TargetEncodingSmoothing(BaseEstimator, TransformerMixin):
     def __init__(self, columns_names, k, f):
         """ Target encoding class.
-        
+
         Parameters
         ----------
         columns_names : list
@@ -214,18 +214,18 @@ class TargetEncodingSmoothing(BaseEstimator, TransformerMixin):
 
     def fit(self, X, y, **fit_params):
         """ Fit target encodings.
-        
+
         Parameters
         ----------
         X : pandas.DataFrame
             Pandas dataframe which contains features.
         y : numpy
             Target values.
-        
+
         Returns
         -------
         Class
-            
+
         """
         X_ = X.copy()
         X_["__target__"] = y
@@ -246,12 +246,12 @@ class TargetEncodingSmoothing(BaseEstimator, TransformerMixin):
 
     def transform(self, X, **fit_params):
         """ Transform fitted target encoding information into X.
-        
+
         Parameters
         ----------
         X : pandas.DataFrame
             Pandas dataframe which contains features.
-        
+
         Returns
         -------
         pandas.DataFrame
@@ -269,14 +269,14 @@ class TargetEncodingSmoothing(BaseEstimator, TransformerMixin):
 
     def fit_transform(self, X, y, **fit_params):
         """ Fit and Transform
-        
+
         Parameters
         ----------
         X : pandas.DataFrame
             Pandas dataframe which contains features.
         y : numpy array
             Target values.
-        
+
         Returns
         -------
         pandas.DataFrame
@@ -299,7 +299,7 @@ def get_CV_target_encoding(data, y, encoder, cv=5):
         TargetEncodingSmoothing Instance
     cv : int, optional
         Cross validation fold, by default 5
-    
+
     Returns
     -------
     [type]
@@ -374,7 +374,7 @@ class TargetEncodingExpandingMean(BaseEstimator, TransformerMixin):
 
 def create_expand_noise_te_features(df_train, y_train, df_test, columns_names):
     """[summary]
-    
+
     Parameters
     ----------
     df_train : pandas.DataFrame
@@ -391,7 +391,7 @@ def create_expand_noise_te_features(df_train, y_train, df_test, columns_names):
         Steepness, a value which controls how step is our function.
     cv_noise : int, optional
         [description], by default 5
-    
+
     Returns
     -------
     [type]
@@ -407,7 +407,7 @@ def create_expand_noise_te_features(df_train, y_train, df_test, columns_names):
 
 def create_smooth_noise_te_features(df_train, y_train, df_test, columns_names, k, f, cv_noise=5):
     """[summary]
-    
+
     Parameters
     ----------
     df_train : pandas.DataFrame
@@ -424,7 +424,7 @@ def create_smooth_noise_te_features(df_train, y_train, df_test, columns_names, k
         Steepness, a value which controls how step is our function.
     cv_noise : int, optional
         [description], by default 5
-    
+
     Returns
     -------
     [type]
@@ -441,7 +441,7 @@ def create_smooth_noise_te_features(df_train, y_train, df_test, columns_names, k
 
 def create_noise_te_features_forlocal_cv(data, y, columns_names, k, f, n_splits=5, cv_noise=5):
     """ Load features and target, then generate target encoded values to correspoding train and valid.
-    
+
     Parameters
     ----------
     data : pandas.DataFrame
@@ -458,7 +458,7 @@ def create_noise_te_features_forlocal_cv(data, y, columns_names, k, f, n_splits=
         Cross validation fold, by default 5
     cv_noise : int optional
         Noise cross validation fold, by default 5
-    
+
     Returns
     -------
     X_train : pandas.DataFrame
