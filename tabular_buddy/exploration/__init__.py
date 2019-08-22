@@ -1,2 +1,1 @@
-from .k_data_exploration import *
-from .method import *
+from .method import compute_iv

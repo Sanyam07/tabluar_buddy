@@ -1,9 +1,9 @@
 import numpy as np
-from ..preprocessing.new_features import create_groupby_features
+from ..feature_engineering import create_groupby_features
 
 
 def compute_iv(data, feature, target):
-    """Compute information gain
+    """Compute information gain for binary dataset.
 
         < 0.02    : useless for prediction
         0.02 - 1  : weak predictor
@@ -28,7 +28,7 @@ def compute_iv(data, feature, target):
 
     """
     # Category
-    group = create_groupby_features(data, feature, {target: ["count", "sum"]}, verbose=False)
+    group = create_groupby_features(data, feature, {target: ["count", "sum"]})
     group.columns = [group.columns[0], "count_all", "count_1"]
     group["count_0"] = group["count_all"] - group["count_1"]
     group["count_1_ratio"] = group["count_1"] / group["count_1"].sum()

@@ -7,10 +7,33 @@
 import os
 import time
 from datetime import datetime
-from time import strftime, localtime
 
 
-def timeit(func):
+class Timer:
+    """Reference : https://github.com/davidcpage/cifar10-fast/blob/master/core.py.
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
+
+    def __init__(self, synch=None):
+        self.synch = synch or (lambda: None)
+        self.synch()
+        self.times = [time.time()]
+        self.total_time = 0.0
+
+    def __call__(self, include_in_total=True):
+        self.synch()
+        self.times.append(time.time())
+        delta_t = self.times[-1] - self.times[-2]
+        if include_in_total:
+            self.total_time += delta_t
+        return delta_t
+
+
+def time_func(func):
     """ Decorator for measuring time elapsed of function."""
 
     def wrapper(*args, **kwargs):
@@ -38,7 +61,7 @@ def now(for_logging=True):
     if for_logging is True:
         current_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
     else:
-        current_time = strftime("%Y-%m-%d_%H-%M-%S", localtime())
+        current_time = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
     return current_time
 
 

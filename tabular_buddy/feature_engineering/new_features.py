@@ -3,80 +3,65 @@ import pandas as pd
 
 from gensim.models import Word2Vec
 
-from ..utils.helper import tick_tock
 from sklearn.decomposition import TruncatedSVD
 from sklearn.model_selection import StratifiedKFold
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
 
-def create_groupby_features(
-    df,
-    group_columns_list,
-    method_dict,
-    add_to_original_data=False,
-    verbose=1,
-    verbose_detail="create stats features",
-    suffix="",
-):
-    """Create statistical columns, group by [N columns] and compute stats on [N column]
+def create_groupby_features(df, group_columns_list, method_dict, add_to_original_data=False, suffix=""):
+    """Create statistical features by grouing 'group_columns_list' and compute stats on other columns
+    specified in method_dict.
 
        Parameters
        ----------
-       df: pandas dataframe
-          Features matrix
-       group_columns_list: list_like
-          List of columns you want to group with, could be multiple columns
-       method_dict: python dictionary
-          Dictionay used to create stats variables
-          shoubld be {'feature': ['method_1', 'method_2']}, if method is a lambda, use function inplace.
+       df : pandas dataframe
+            Feature dataframe.
+       group_columns_list : list
+            List of columns you want to group with, could be multiple columns.
+       method_dict: dict
+            Dictionay used to create stats variables
+            shoubld be {'feature_1': ['method_1', 'method_2'],
+                        'feature_2': ['method_1', 'method_2']},
+                        if method is a lambda, use function inplace of method string.
        add_to_original_data: boolean
-          only keep stats or add stats variable to raw data
-       verbose: int
-          1 return tick_tock info 0 do not return any info
-       Return
-       ------
-       new pandas dataframe with original columns and new added columns
+          Only keep stats or add stats variable to raw data, default False.
 
-       Example
+       Returns
        -------
-       ka_add_groupby_features(data
-                               ,['class']
-                               ,{'before': ['count','mean']})
+       df_copy : pandas dataframe
+            New pandas dataframe with grouped columns and statistic columns.
+
+       Examples
+       --------
+       create_groupby_features(df=data,
+                               group_columns_list=['class'],
+                               method_dict={'before': ['count','mean']})
     """
-    with tick_tock(verbose_detail, verbose):
-        try:
-            if type(group_columns_list) == list:
-                pass
-            else:
-                raise TypeError(group_columns_list, "should be a list")
-        except TypeError as e:
-            print(e)
-            raise
+    assert type(group_columns_list) == list, str([1]) + " should be a list"
 
-        df_new = df.copy()
-        grouped = df_new.groupby(group_columns_list)
+    df_copy = df.copy()
+    grouped = df_copy.groupby(group_columns_list)
+    the_stats = grouped.agg(method_dict)
+    if suffix != "":
+        the_stats.columns = [
+            "".join(group_columns_list) + "_LV_" + "_".join(x[::-1]) + "_" + str(suffix)
+            for x in the_stats.columns.ravel()
+        ]
+    else:
+        the_stats.columns = [
+            "".join(group_columns_list) + "_LV_" + "_".join(x[::-1]) for x in the_stats.columns.ravel()
+        ]
+    the_stats.reset_index(inplace=True)
 
-        the_stats = grouped.agg(method_dict)
-        if suffix != "":
-            the_stats.columns = [
-                "".join(group_columns_list) + "_LV_" + "_".join(x[::-1]) + "_" + str(suffix)
-                for x in the_stats.columns.ravel()
-            ]
-        else:
-            the_stats.columns = [
-                "".join(group_columns_list) + "_LV_" + "_".join(x[::-1]) for x in the_stats.columns.ravel()
-            ]
-        the_stats.reset_index(inplace=True)
+    if not add_to_original_data:
+        df_copy = the_stats
+    else:
+        df_copy = pd.merge(
+            left=df_copy[group_columns_list], right=the_stats, on=group_columns_list, how="left"
+        ).reset_index(drop=True)
 
-        if not add_to_original_data:
-            df_new = the_stats
-        else:
-            df_new = pd.merge(
-                left=df_new[group_columns_list], right=the_stats, on=group_columns_list, how="left"
-            ).reset_index(drop=True)
-
-    return df_new
+    return df_copy
 
 
 def create_svd_interaction_features(

@@ -10,6 +10,7 @@ import sys
 import inspect
 import hashlib
 from pathlib import Path
+from multiprocessing import cpu_count, Pool
 
 # Third party libraries
 import joblib
@@ -186,3 +187,64 @@ def cache(feature_path="data/features/"):
         return wrapper
 
     return decorator
+
+
+def parallelize(df, func):
+    """ Split data into max core partitions and execute func in parallel.
+    https://www.machinelearningplus.com/python/parallel-processing-python/
+
+    Parameters
+    ----------
+    df : pandas Dataframe
+    func : any functions
+
+    Returns
+    -------
+    data : pandas Dataframe
+        Returned dataframe of func.
+    """
+    cores = cpu_count()
+    data_split = np.array_split(df, cores)
+    pool = Pool(cores)
+    data = pd.concat(pool.map(func, data_split), ignore_index=1)
+    pool.close()
+    pool.join()
+    return data
+
+
+def get_logger(logger_name, filename=None):
+    """ Logger that can print message to console and file.
+
+    Parameters
+    ----------
+    logger_name : str
+        Logger name, can be any string.
+    filename : str, optional default None
+        Path of log file
+
+    Returns
+    -------
+    logger : RootLogger
+        Python logger instance.
+    """
+    # NOTSET（0）、DEBUG（10）、INFO（20）、WARNING（30）、ERROR（40）、CRITICAL（50）
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(
+        "%(asctime)s  %(filename)s : %(levelname)-8s  %(message)s", datefmt="%Y-%m-%d %A %H:%M:%S"
+    )
+
+    # Output to console
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
+
+    # Output to file Add handler to logger, left log can to print to both console and file.
+    if filename is None:
+        file_handler = logging.FileHandler(filename=filename, mode="w")
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+
+    return logger
