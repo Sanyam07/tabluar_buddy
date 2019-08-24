@@ -7,6 +7,7 @@
 import os
 import time
 from datetime import datetime
+from functools import wraps
 
 
 class Timer:
@@ -34,13 +35,16 @@ class Timer:
 
 
 def time_func(func):
-    """ Decorator for measuring time elapsed of function."""
+    """ Decorator for measuring time elapsed of function.
+        @wraps can remove the conflict with multiprocess.
+    """
 
+    @wraps(func)
     def wrapper(*args, **kwargs):
         start_time = time.time()
-        func(*args, **kwargs)
-        print("Executed in {} seconds".format(int(time.time() - start_time)))
-        return
+        res = func(*args, **kwargs)
+        print("{} : {} seconds".format(func.__name__, int(time.time() - start_time)))
+        return res
 
     return wrapper
 

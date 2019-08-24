@@ -215,6 +215,7 @@ def parallelize(df, func):
 
 def get_logger(logger_name, filename=None):
     """ Logger that can print message to console and file.
+    Reference: https://juejin.im/post/5bc2bd3a5188255c94465d31
 
     Parameters
     ----------
